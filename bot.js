@@ -2,7 +2,10 @@ const {
   Client,
   GatewayIntentBits,
   Partials,
-  PermissionsBitField
+  PermissionsBitField,
+  REST,
+  Routes,
+  SlashCommandBuilder,
 } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
@@ -49,35 +52,41 @@ function scheduleBaaa() {
   const interval = Math.floor(Math.random() * (max - min + 1)) + min;
 
   setTimeout(async () => {
-    for (const [guildId, guild] of client.guilds.cache) {
-      try {
-        const channelId = baaChannels[guild.id];
-        if (!channelId) continue;
+    try {
+      for (const [guildId, guild] of client.guilds.cache) {
+        try {
+          const channelId = baaChannels[guild.id];
+          if (!channelId) continue;
 
-        const channel = guild.channels.cache.get(channelId);
-        if (
-          !channel ||
-          !channel.isTextBased() ||
-          !channel
-            .permissionsFor(guild.members.me)
-            .has(PermissionsBitField.Flags.SendMessages)
-        )
-          continue;
+          const channel = guild.channels.cache.get(channelId);
+          if (
+            !channel ||
+            !channel.isTextBased() ||
+            !channel.permissionsFor(guild.members.me).has(PermissionsBitField.Flags.SendMessages)
+          ) {
+            console.warn(`[WARN] Missing permission in ${channel?.name || channelId}`);
+            continue;
+          }
 
-        const messages = await channel.messages.fetch({ limit: 1 });
-        const lastMsg = messages.first();
-        if (!lastMsg || Date.now() - lastMsg.createdTimestamp > 30 * 60 * 1000)
-          continue;
+          const messages = await channel.messages.fetch({ limit: 1 });
+          const lastMsg = messages.first();
+          if (!lastMsg || Date.now() - lastMsg.createdTimestamp > 30 * 60 * 1000) continue;
 
-        const msg =
-          Math.random() < 0.01
+          const msg = Math.random() < 0.01
             ? easterEggs[Math.floor(Math.random() * easterEggs.length)]
             : baaaMessages[Math.floor(Math.random() * baaaMessages.length)];
 
-        channel.send(msg);
-      } catch (err) {
-        console.error(`Error in guild ${guildId}:`, err);
+          try {
+            await channel.send(msg);
+          } catch (sendErr) {
+            console.error(`[ERROR] Failed to send BAA in ${channel?.name || channelId}:`, sendErr);
+          }
+        } catch (innerErr) {
+          console.warn(`[Guild: ${guildId}] Error:`, innerErr);
+        }
       }
+    } catch (outerErr) {
+      console.error(`[Global Baa Error]`, outerErr);
     }
 
     scheduleBaaa();
@@ -127,6 +136,24 @@ client.on("interactionCreate", async (interaction) => {
       ephemeral: true,
     });
   }
+
+  if (interaction.commandName === "deletebaachannel") {
+    if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild)) {
+      return interaction.reply({ content: 'You need **Manage Server** permission to use this command.', ephemeral: true });
+    }
+
+    if (!baaChannels[interaction.guild.id]) {
+      return interaction.reply({ content: `❌ No BAA channel set for this server.`, ephemeral: true });
+    }
+
+    delete baaChannels[interaction.guild.id];
+    saveBaaChannels();
+
+    return interaction.reply({
+      content: `❌ The BAA channel has been removed for this server.`,
+      ephemeral: true,
+    });
+  }
 });
 
 client.once("ready", () => {
@@ -134,4 +161,4 @@ client.once("ready", () => {
   scheduleBaaa();
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.token);

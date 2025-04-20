@@ -13,7 +13,7 @@ const commands = [
     .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageGuild)
 ].map(command => command.toJSON());
 
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.token);
 
 (async () => {
   try {
