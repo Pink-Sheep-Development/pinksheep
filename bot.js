@@ -29,6 +29,8 @@ function saveBaaChannels() {
   fs.writeFileSync(configPath, JSON.stringify(baaChannels, null, 2));
 }
 
+const messageCounter = new Map();
+const lastBaaTime = new Map();
 const baaaMessages = [
   "BAAAAAAAAAAA 🐑",
   "bAAAaaaAAAaaAaa",
@@ -47,9 +49,7 @@ const easterEggs = [
 ];
 
 function scheduleBaaa() {
-  const min = 10 * 60 * 1000;
-  const max = 30 * 60 * 1000;
-  const interval = Math.floor(Math.random() * (max - min + 1)) + min;
+  const interval = 5 * 60 * 1000; // check every 5 minutes
 
   setTimeout(async () => {
     try {
@@ -68,9 +68,13 @@ function scheduleBaaa() {
             continue;
           }
 
-          const messages = await channel.messages.fetch({ limit: 1 });
-          const lastMsg = messages.first();
-          if (!lastMsg || Date.now() - lastMsg.createdTimestamp > 30 * 60 * 1000) continue;
+          const messageCount = messageCounter.get(channelId) || 0;
+          const lastTime = lastBaaTime.get(channelId) || 0;
+          const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
+
+          if (messageCount < 20 && lastTime > twoHoursAgo) continue;
+          messageCounter.set(channelId, 0);
+          lastBaaTime.set(channelId, Date.now());
 
           const msg = Math.random() < 0.01
             ? easterEggs[Math.floor(Math.random() * easterEggs.length)]
@@ -97,6 +101,8 @@ client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
   const content = message.content.toLowerCase();
+  const channelId = message.channel.id;
+  messageCounter.set(channelId, (messageCounter.get(channelId) || 0) + 1);
 
   if (content.includes("pink")) {
     message.reply("Did someone say PINK?! 💅");
