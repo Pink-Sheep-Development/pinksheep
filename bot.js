@@ -62,17 +62,17 @@ const baaaMessages = [
   "🧠 Think baa. Be baa.",
   "404: Chill not found. BAAAAAAAA!",
   "✨ Maximum BAA Overdrive Activated ✨",
+  "God I love <@471721245868556298>....I mean BAAA"
   
 ];
 
 
 const easterEggs = [
-  // "Pink Sheep is watching 👁️🐑",
-  // "Baa... but like, philosophically 🧠",
-  // "You've unlocked Ultra Instinct Baa 🐉",
-  // "This baa has been brought to you by Mustache Gang™️",
-  // "I'm not just a bot... I'm a baa-t.",
-  "God I love <@471721245868556298>....I mean BAAA"
+  "Pink Sheep is watching 👁️🐑",
+  "Baa... but like, philosophically 🧠",
+  "You've unlocked Ultra Instinct Baa 🐉",
+  "This baa has been brought to you by Mustache Gang™️",
+  "I'm not just a bot... I'm a baa-t.",
 ];
 
 function scheduleBaaa() {
