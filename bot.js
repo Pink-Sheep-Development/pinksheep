@@ -38,14 +38,41 @@ const baaaMessages = [
   "Baa moment™",
   "🚨BAA EMERGENCY🚨",
   "This is your daily baa. Carry on.",
+  "Certified Baa Classic™",
+  "You have been blessed by the BAA 🐑",
+  "Baa.exe has started...",
+  "💿 Loading... BAA sequence initiated.",
+  "Hold up... did someone say BAA?",
+  "*baas in sheep*",
+  "Unleashing the forbidden BAA 🕳️🐑",
+  "Echoes of ancient BAAAAAA",
+  "The prophecy foretold... BAA",
+  "Baaquake detected. Magnitude: Shear 9.0",
+  "WARNING: Too much BAA can be contagious",
+  "Every time you read this, a sheep goes 🐑",
+  "One small BAA for sheep, one giant BAA for sheepkind",
+  "💥 Tactical BAA deployed",
+  "Now broadcasting on BAA FM 📻",
+  "Have you considered... BAA?",
+  "Powered by 100% BAA-grade nonsense",
+  "It's baa o'clock somewhere ⏰",
+  "🐑 BAA is love. BAA is life.",
+  "New DLC unlocked: *BAAAAAAAAA*",
+  "The floor is lava. The baa is real.",
+  "🧠 Think baa. Be baa.",
+  "404: Chill not found. BAAAAAAAA!",
+  "✨ Maximum BAA Overdrive Activated ✨",
+  
 ];
 
+
 const easterEggs = [
-  "Pink Sheep is watching 👁️🐑",
-  "Baa... but like, philosophically 🧠",
-  "You've unlocked Ultra Instinct Baa 🐉",
-  "This baa has been brought to you by Mustache Gang™️",
-  "I'm not just a bot... I'm a baa-t.",
+  // "Pink Sheep is watching 👁️🐑",
+  // "Baa... but like, philosophically 🧠",
+  // "You've unlocked Ultra Instinct Baa 🐉",
+  // "This baa has been brought to you by Mustache Gang™️",
+  // "I'm not just a bot... I'm a baa-t.",
+  "God I love <@471721245868556298>....I mean BAAA"
 ];
 
 function scheduleBaaa() {
